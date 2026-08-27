@@ -53,7 +53,7 @@ app.get('/produtos', async (req, res) => {
       return res.json([]);
     }
 
-    const [rows] = await pool.query('SELECT * FROM `produtos` ORDER BY `CODIGO DO PRODUTO` DESC');
+    const [rows] = await pool.query('SELECT * FROM `produto` ORDER BY `CODIGO DO PRODUTO` DESC');
     res.json(rows);
   } catch (error: any) {
     console.error('Erro ao buscar produtos:', error);
