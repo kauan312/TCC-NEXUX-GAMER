@@ -46,7 +46,7 @@ app.post('/produtos', async (req, res) => {
 app.get('/produtos', async (req, res) => {
   try {
     // Verifica se a tabela existe antes de ler para evitar erro de tabela fantasma
-    const [tabelas]: any = await pool.query("SHOW TABLES LIKE 'produtos'");
+    const [tabelas]: any = await pool.query("SHOW TABLES LIKE 'produto'");
     
     if (tabelas.length === 0) {
       // Se a tabela não existe, significa que nenhum produto foi cadastrado ainda
