@@ -60,7 +60,25 @@ app.get('/produtos', async (req, res) => {
     res.status(500).json({ error: 'Erro ao buscar os produtos.' });
   }
 });
+// ================= BUSCA POR TERMO/NOME =================
+app.get('/produtos/busca', async (req, res) => {
+  const { q } = req.query;
 
+  if (!q || typeof q !== 'string' || q.trim() === '') {
+    return res.status(400).json({ error: 'Informe um termo de busca no parâmetro q (ex: /produtos/busca?q=nome)' });
+  }
+
+  try {
+    const termo = `%${q.trim()}%`;
+    const queryBusca = 'SELECT * FROM `produtos-vini` WHERE `NOME DO PRODUTO` LIKE ? ORDER BY `CODIGO DO PRODUTO` DESC';
+    const [rows] = await pool.query(queryBusca, [termo]);
+
+    res.json(rows);
+  } catch (error) {
+    console.error('Erro ao buscar produtos por termo:', error);
+    res.status(500).json({ error: 'Erro interno ao realizar a busca.' });
+  }
+});
 // Suas rotas antigas continuam aqui...
 app.get('/descobrir-tabelas', async (req, res) => {
   try {
